@@ -1,5 +1,5 @@
 // ===== server.js =====
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 import app from "./app.js";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
