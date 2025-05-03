@@ -26,7 +26,7 @@ export default function CustomerTable() {
 
   const fetchUsers = async (page: number) => {
     const res = await axios.get(
-      `http://localhost:3001/get-summary?page=${page}&limit=50`
+      `${process.env.NEXT_PUBLIC_API_URL}?page=${page}&limit=50`
     );
     setUsers(res.data.userData);
     setTotalPages(res.data.totalPage);
