@@ -15,4 +15,4 @@ const userSchema = new mongoose.Schema({
   locationType: String,
 });
 
-export default mongoose.model("user", userSchema);
+export default mongoose.model("users", userSchema);
