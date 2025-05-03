@@ -5,11 +5,11 @@ import axios from "axios";
 
 type User = {
   _id: string;
-  Number: number;
-  Name: string;
-  Age: number;
+  number: number;
+  name: string;
+  age: number;
   gender: string;
-  Email: string;
+  email: string;
   brandDevice: string;
   digitalInterest: string;
   noTelpon: string;
@@ -58,17 +58,17 @@ export default function CustomerTable() {
           {users.map((user) => (
             <tr key={user._id} className="text-center">
               <td className="border px-4 py-2 hover:bg-red-300">
-                {user.Number}
+                {user.number}
               </td>
-              <td className="border px-4 py-2 hover:bg-red-300">{user.Name}</td>
+              <td className="border px-4 py-2 hover:bg-red-300">{user.name}</td>
               <td className="border px-4 py-2 hover:bg-red-300">
-                {year - user.Age}
+                {year - user.age}
               </td>
               <td className="border px-4 py-2 hover:bg-red-300">
                 {user.gender}
               </td>
               <td className="border px-4 py-2 hover:bg-red-300">
-                {user.Email}
+                {user.email}
               </td>
               <td className="border px-4 py-2 hover:bg-red-300">
                 {user.brandDevice}
