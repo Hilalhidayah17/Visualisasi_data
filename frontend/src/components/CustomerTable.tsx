@@ -21,15 +21,23 @@ export default function CustomerTable() {
   const [users, setUsers] = useState<User[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false); // State untuk loading
   const d = new Date();
   const year = d.getFullYear();
 
   const fetchUsers = async (page: number) => {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}?page=${page}&limit=50`
-    );
-    setUsers(res.data.userData);
-    setTotalPages(res.data.totalPage);
+    setLoading(true); // Mulai loading
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}?page=${page}&limit=50`
+      );
+      setUsers(res.data.userData);
+      setTotalPages(res.data.totalPage);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // Selesai loading
+    }
   };
 
   useEffect(() => {
@@ -39,56 +47,65 @@ export default function CustomerTable() {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Customer Data (Page {page})</h2>
-      <table className="min-w-full border">
-        <thead>
-          <tr className="bg-gray-900 ">
-            <th className="border px-4 py-2">No</th>
-            <th className="border px-4 py-2">Name</th>
-            <th className="border px-4 py-2">Age</th>
-            <th className="border px-4 py-2">Gender</th>
-            <th className="border px-4 py-2">Email</th>
-            <th className="border px-4 py-2">Device</th>
-            <th className="border px-4 py-2">Digital Interest</th>
-            <th className="border px-4 py-2">No Telp</th>
-            <th className="border px-4 py-2">Login Activity</th>
-            <th className="border px-4 py-2">Location Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id} className="text-center">
-              <td className="border px-4 py-2 hover:bg-red-300">
-                {user.number}
-              </td>
-              <td className="border px-4 py-2 hover:bg-red-300">{user.name}</td>
-              <td className="border px-4 py-2 hover:bg-red-300">
-                {year - user.age}
-              </td>
-              <td className="border px-4 py-2 hover:bg-red-300">
-                {user.gender}
-              </td>
-              <td className="border px-4 py-2 hover:bg-red-300">
-                {user.email}
-              </td>
-              <td className="border px-4 py-2 hover:bg-red-300">
-                {user.brandDevice}
-              </td>
-              <td className="border px-4 py-2 hover:bg-red-300">
-                {user.digitalInterest}
-              </td>
-              <td className="border px-4 py-2 hover:bg-red-300">
-                {user.noTelpon}
-              </td>
-              <td className="border px-4 py-2 hover:bg-red-300">
-                {user.loginHour}
-              </td>
-              <td className="border px-4 py-2 hover:bg-red-300">
-                {user.locationType}
-              </td>
+
+      {loading ? (
+        <div className="flex justify-center items-center mt-4">
+          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full border-t-transparent border-gray-600"></div>
+        </div>
+      ) : (
+        <table className="min-w-full border">
+          <thead>
+            <tr className="bg-gray-900 ">
+              <th className="border px-4 py-2">No</th>
+              <th className="border px-4 py-2">Name</th>
+              <th className="border px-4 py-2">Age</th>
+              <th className="border px-4 py-2">Gender</th>
+              <th className="border px-4 py-2">Email</th>
+              <th className="border px-4 py-2">Device</th>
+              <th className="border px-4 py-2">Digital Interest</th>
+              <th className="border px-4 py-2">No Telp</th>
+              <th className="border px-4 py-2">Login Activity</th>
+              <th className="border px-4 py-2">Location Type</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id} className="text-center">
+                <td className="border px-4 py-2 hover:bg-red-300">
+                  {user.number}
+                </td>
+                <td className="border px-4 py-2 hover:bg-red-300">
+                  {user.name}
+                </td>
+                <td className="border px-4 py-2 hover:bg-red-300">
+                  {year - user.age}
+                </td>
+                <td className="border px-4 py-2 hover:bg-red-300">
+                  {user.gender}
+                </td>
+                <td className="border px-4 py-2 hover:bg-red-300">
+                  {user.email}
+                </td>
+                <td className="border px-4 py-2 hover:bg-red-300">
+                  {user.brandDevice}
+                </td>
+                <td className="border px-4 py-2 hover:bg-red-300">
+                  {user.digitalInterest}
+                </td>
+                <td className="border px-4 py-2 hover:bg-red-300">
+                  {user.noTelpon}
+                </td>
+                <td className="border px-4 py-2 hover:bg-red-300">
+                  {user.loginHour}
+                </td>
+                <td className="border px-4 py-2 hover:bg-red-300">
+                  {user.locationType}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       <div className="mt-6 flex justify-center items-center gap-2 flex-wrap">
         <button
