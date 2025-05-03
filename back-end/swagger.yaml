@@ -1,0 +1,122 @@
+openapi: 3.0.0
+info:
+  title: Customer Dashboard API
+  version: 1.0.0
+  description: API untuk menampilkan data pengguna berdasarkan gender, perangkat, lokasi, dan jam login.
+
+servers:
+  - url: http://localhost:3001
+
+paths:
+  /get-summary:
+    get:
+      summary: Ambil data pengguna dengan pagination
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Jumlah data per halaman
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Nomor halaman
+      responses:
+        "200":
+          description: Data pengguna berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userData:
+                    type: array
+                    items:
+                      type: object
+                  totalPage:
+                    type: number
+
+  /get-summary/gender:
+    get:
+      summary: Statistik jumlah pengguna berdasarkan gender
+      responses:
+        "200":
+          description: Statistik gender berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        gender:
+                          type: string
+                        count:
+                          type: integer
+
+  /get-summary/device:
+    get:
+      summary: 5 perangkat paling banyak digunakan
+      responses:
+        "200":
+          description: Statistik perangkat berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        brand:
+                          type: string
+                        count:
+                          type: integer
+
+  /get-summary/location:
+    get:
+      summary: Statistik pengguna berdasarkan tipe lokasi
+      responses:
+        "200":
+          description: Statistik lokasi berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        location:
+                          type: string
+                        count:
+                          type: integer
+
+  /get-summary/login-hour:
+    get:
+      summary: Statistik pengguna berdasarkan jam login
+      responses:
+        "200":
+          description: Statistik jam login berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        hour:
+                          type: string
+                        count:
+                          type: integer
